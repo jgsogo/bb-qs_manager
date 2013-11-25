@@ -67,6 +67,10 @@ namespace core {
                         static_assert( false, "<ClassToTest> is not implemented as a valid container for 'qs_manager'");
                         };
 
+                    const size_t& count() const {
+                        static_assert( false, "<ClassToTest> is not implemented as a valid container for 'qs_manager'");
+                        };
+
                     const T& get(const ID& id) const {
                         static_assert( false, "<ClassToTest> is not implemented as a valid container for 'qs_manager'");
                         };
@@ -109,6 +113,9 @@ namespace core {
                 > {
                 public:
                     virtual const std::vector<T>& all() const = 0;
+                    virtual const size_t& count() const {
+                        return this->all().size();
+                        };
                     const T& get(const ID& id) const {
                         // We have to iterate all elements to look for one (check if there are many)
                         const std::vector<T>& all = this->all();
@@ -207,7 +214,9 @@ namespace core {
             // Map implementations
             template <class T, class ID>
             class qs_manager_getter_map {
-                public:                    
+                public:
+                    virtual const size_t& count() const = 0;
+
                     const T& get(const ID& id) const {
                         // There cannot be duplicates on maps
                         const std::map<ID, T>& all = this->__get_all();
@@ -239,6 +248,12 @@ namespace core {
                     qs_manager_get_impl<T, ID, ClassToTest,
                     typename std::enable_if<has_all_to_container<ClassToTest, std::map<ID, T> >::value>::type
                     >(const typename ClassToTest& container) : _container(container) {                        
+                        };
+
+                    virtual const size_t& count() const {
+                        std::map<ID, T> map;
+                        _container.all(map);
+                        return map.size();
                         };
 
                     void all(std::vector<T>& ret) const {
@@ -280,6 +295,10 @@ namespace core {
                     >(const typename ClassToTest& container) : _container(container) {                        
                         };
 
+                    virtual const size_t& count() const {
+                        return _container.all().size();
+                        };
+
                     void all(std::vector<T>& ret) const {
                         const std::map<ID, T>& all = _container.all();
                         std::transform( all.begin(), all.end(), std::back_inserter(ret), second(all));
@@ -308,6 +327,10 @@ namespace core {
             class qs_manager_get_impl<T, ID, typename std::map<ID, T>, void> : public qs_manager_getter_map<T, ID> {
                 public:
                     qs_manager_get_impl<T, ID, typename std::map<ID, T>, void>(const typename std::map<ID, T>& container) : _container(container) {
+                        };
+
+                    virtual const size_t& count() const {
+                        return _container.size();
                         };
 
                     void all(std::vector<T>& ret) const {
