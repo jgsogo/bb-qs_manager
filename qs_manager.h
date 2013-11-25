@@ -1,4 +1,3 @@
-                
 #pragma once
 
 #include <exception>
@@ -6,14 +5,14 @@
 #include <map>
 #include <iterator>
 #include <algorithm>
-#include "core/utils/has_member.hpp"
+#include "has_member.hpp"
 
 /* Implements (or tries to) an unified way of working with containers of several types: maps, vectors, multimaps,...
     in a way all of them could inherit from the same interface and be treated the same way.
 */
 
-namespace citef {
-    namespace core {
+namespace core {
+    namespace utils {
 
         /* Define exceptions for this class
             * object_not_found: no object found
@@ -96,7 +95,7 @@ namespace citef {
             template <typename T, typename ID>
             struct is_operator_available {
                 template <typename T1, typename ID1>
-                static decltype(::citef::core::qs_manager_implementation::operator==(T1(), ID1())) test(int, int);
+                static decltype(::core::utils::qs_manager_implementation::operator==(T1(), ID1())) test(int, int);
                 template <typename, typename>
                 static void test(...);
 
@@ -115,7 +114,7 @@ namespace citef {
                         const std::vector<T>& all = this->all();
                         std::vector<T>::const_iterator found = all.end(), begin = all.begin(), end = all.end();
                         while (begin != end) {
-                            if ( ::citef::core::qs_manager_implementation::operator==(*begin,id)) {
+                            if ( ::core::utils::qs_manager_implementation::operator==(*begin,id)) {
                                 if (found != all.end()) {
                                     throw multiple_objects_found(id);
                                     }
