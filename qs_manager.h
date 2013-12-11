@@ -67,7 +67,7 @@ namespace core {
                         static_assert( false, "<ClassToTest> is not implemented as a valid container for 'qs_manager'");
                         };
 
-                    const size_t& count() const {
+                    const size_t count() const {
                         static_assert( false, "<ClassToTest> is not implemented as a valid container for 'qs_manager'");
                         };
 
@@ -113,7 +113,7 @@ namespace core {
                 > {
                 public:
                     virtual const std::vector<T>& all() const = 0;
-                    virtual const size_t& count() const {
+                    virtual const size_t count() const {
                         return this->all().size();
                         };
                     const T& get(const ID& id) const {
@@ -215,7 +215,7 @@ namespace core {
             template <class T, class ID>
             class qs_manager_getter_map {
                 public:
-                    virtual const size_t& count() const = 0;
+                    virtual const size_t count() const = 0;
 
                     const T& get(const ID& id) const {
                         // There cannot be duplicates on maps
@@ -250,7 +250,7 @@ namespace core {
                     >(const typename ClassToTest& container) : _container(container) {                        
                         };
 
-                    virtual const size_t& count() const {
+                    virtual const size_t count() const {
                         std::map<ID, T> map;
                         _container.all(map);
                         return map.size();
@@ -295,7 +295,7 @@ namespace core {
                     >(const typename ClassToTest& container) : _container(container) {                        
                         };
 
-                    virtual const size_t& count() const {
+                    virtual const size_t count() const {
                         return _container.all().size();
                         };
 
@@ -329,7 +329,7 @@ namespace core {
                     qs_manager_get_impl<T, ID, typename std::map<ID, T>, void>(const typename std::map<ID, T>& container) : _container(container) {
                         };
 
-                    virtual const size_t& count() const {
+                    virtual const size_t count() const {
                         return _container.size();
                         };
 
