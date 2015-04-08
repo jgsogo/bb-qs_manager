@@ -85,7 +85,7 @@ namespace core {
                 public:
                     virtual const std::vector<T>& all() const = 0;
                     const T& get(const ID& id) const {
-                        static_assert(false, "To use 'get' on qs_manager with a vector implementation you must define 'bool ::citef::core::qs_manager_implementation::operator==(const T&, const ID&)' function ");
+                        static_assert(false, "To use 'get' on qs_manager with a vector implementation you must define 'bool ::core::qs_manager_implementation::operator==(const T&, const ID&)' function ");
                         }
                 };
             
@@ -368,7 +368,7 @@ namespace core {
         template <class T, class TContainer, class ID=std::string>
         class qs_manager : public _private::qs_manager_get_impl<T, ID, TContainer> {
             public:
-                //typedef typename core::citef_ptr<T>::shared _t_type_ptr; // Just for reference, use signal_ptr, connection_ptr,... instead
+                //typedef typename core::smart_ptr<T>::shared _t_type_ptr; // Just for reference, use signal_ptr, connection_ptr,... instead
                 typedef T _t_type_ptr;
                 typedef std::vector<_t_type_ptr> _t_type_ptr_vector;
 
